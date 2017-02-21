@@ -1,0 +1,137 @@
+﻿@{
+    ViewBag.Title = "Spawner";
+}
+<link href="~/Content/Home/spawner.css" rel="stylesheet" />
+<div class="container-fluid">
+    <div class="page-header">
+        <h1>Spawner</h1>
+    </div>
+
+    <div class="row">
+        @* Actions *@
+        <div class="col-md-12" style="display: inline-block">
+            <button class="btn btn-primary" data-bind="click: SpawnZombies">Spawn Zombies (<span data-bind="text: SpawnsLeftInTurn"></span>)</button>
+            <button class="btn btn-default" data-bind="click: SelectCard">Building / Other Spawn</button>
+        </div>
+    </div>
+
+    <div class="jumbotron" data-bind="css: JumbotronGlow">
+        <h1>
+            <span class="glyphicon glyphicon-cd jumbotron-icon" data-bind="visible: ShowSewerIcon"></span>
+            <span data-bind="text: JumbotronMessage"></span>
+        </h1>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12" style="display: inline-block">
+            <div class="btn-group btn-group-justified" role="group" data-bind="foreach: Turns">
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-turn btn-lg" data-bind="css: color, event: { click: function () { $root.SetTurnInfo(number) }}"><span class="glyphicon" data-bind="css: icon"></span></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        @* Game Info *@
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3>Game Info</h3>
+                </div>
+                <div class="panel-body">
+                    <wide-spinner params="value: ActiveSpawnSpinnerVM"></wide-spinner>
+                    <div>
+                        <label>Current Turn:</label>
+                        <span data-bind="text: Turn"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @* Turn Info *@
+        <div class="col-md-4">
+            <div class="panel panel-default" data-bind="with: CurrentTurnInfo">
+                <div class="panel-heading">
+                    <h3>Turn <span data-bind="text: number"></span> Info</h3>
+                </div>
+                <div class="panel-body">
+                    <ul data-bind="foreach: history">
+                        <li data-bind="text: Info"></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        @* Setup *@
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-heading"><h3>Game Setup</h3></div>
+                <div class="panel-body">
+                    <div>
+                        <button class="btn btn-primary btn-panel" data-bind="click: StartGame, enable: GameSetup">
+                            <span>Start Game</span>
+                            <span data-bind="visible: GameSetup"> (Enter)</span>
+                        </button>
+                    </div>
+                    <wide-spinner params="value: BlueSpinnerVM"></wide-spinner>
+                    <wide-spinner params="value: YellowSpinnerVM"></wide-spinner>
+                    <wide-spinner params="value: OrangeSpinnerVM"></wide-spinner>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        @* Test Stuff *@
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3>Test Stuff <span class="glyphicon glyphicon-refresh glyphicon-spin loading-icon" data-bind="visible: InfoLoading"></span></h3>
+                </div>
+                <div class="panel-body">
+                    <div>
+                        <button class="btn btn-primary btn-panel" data-bind="click: GetDeck">Get Deck</button>
+                    </div>
+                    <wide-spinner params="value: TestSpinner"></wide-spinner>
+                    <h3>Card Count: <span data-bind="text: Cards().length"></span></h3>
+                    <wide-spinner params="value: TurnNumberSpinner"></wide-spinner>
+                </div>
+            </div>
+        </div>
+        @* Stats *@
+        @*<div class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-heading"><h3>Stats</h3></div>
+                <div class="panel-body">
+                    <div>
+                        <label>Current Turn:</label>
+                        <span data-bind="text: CurrentTurn"></span>
+                    </div>
+                    <div>
+                        <label>Spawns Until Next Turn:</label>
+                        <span data-bind="text: SpawnsUntilNextTurn"></span>
+                    </div>
+                    <div>
+                        <label>Number of Spawns:</label>
+                        <span data-bind="text: CurrentNumberOfTotalSpawns"></span>
+                    </div>
+                    <div>
+                        <label>Current Deck:</label>
+                        <span data-bind="text: SelectedDeck"></span>
+                    </div>
+                    <div>
+                        <label>Cards Left:</label>
+                        <span data-bind="text: Cards().length"></span>
+                    </div>
+                    <div>
+                        <label>Average Power:</label>
+                        <span data-bind="text: AveragePower"></span>
+                    </div>
+                    <button class="btn btn-danger" data-bind="click: Reset">Reset</button>
+
+                </div>
+            </div>
+        </div>*@
+    </div>
+</div>
+
+@Html.Partial("_CommonScripts")
+<script src="~/Scripts/Home/Spawner.js"></script>

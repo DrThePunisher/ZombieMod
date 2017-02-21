@@ -1,0 +1,70 @@
+﻿.jumbotron {
+    outline: none;
+    margin-bottom: 1em;
+}
+
+.jumbotron-blue {
+    box-shadow: 0 0 25px rgb(81, 203, 238);
+    border: 2px solid rgb(81, 203, 238);
+}
+
+.jumbotron-yellow {
+    box-shadow: 0 0 25px rgb(255, 216, 0);
+    border: 2px solid rgb(255, 216, 0);
+}
+
+.jumbotron-orange {
+    box-shadow: 0 0 25px rgb(254, 133, 47);
+    border: 2px solid rgb(254, 133, 47);
+}
+
+.jumbotron-red {
+    box-shadow: 0 0 25px rgb(255, 0, 0);
+    border: 2px solid rgb(255, 0, 0);
+}
+
+.jumbotron-icon {
+    font-size: 0.8em;
+}
+
+.panel-heading .loading-icon {
+    font-size: large;
+}
+
+.btn-turn {
+    border-color: lightgray;
+}
+
+.btn-panel {
+    margin-bottom: 0.5em;
+}
+
+@media (max-width:767px) and (min-width:401px) {
+    .btn-turn {
+        padding: 16px 0px;
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 400px) {
+    .btn-turn {
+        padding: 2px 0px 0px 0px;
+        font-size: 12px;
+    }
+}
+
+.btn-turn-blue {
+    background-color: rgb(81, 203, 238); 
+}
+
+.btn-turn-yellow {
+    background-color: rgb(255, 216, 0); 
+}
+
+.btn-turn-orange {
+    background-color: rgb(254, 133, 47); 
+}
+
+.btn-turn-red {
+    background-color: rgb(255, 0, 0); 
+}

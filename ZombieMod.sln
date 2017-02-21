@@ -1,0 +1,27 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.40629.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZombieMod.Web", "ZombieMod.Web\ZombieMod.Web.csproj", "{E02AB217-D6A3-41DD-8326-268A77434491}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZombieMod.Data", "ZombieMod.Data\ZombieMod.Data.csproj", "{04C283BF-F66C-4FA6-86B8-73073C3E2476}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZombieMod.Utilities", "ZombieMod.Utilities\ZombieMod.Utilities.csproj", "{2CD10310-AB3C-4F93-9B82-09125252A9AF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Azure|Any CPU = Azure|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E02AB217-D6A3-41DD-8326-268A77434491}.Azure|Any CPU.ActiveCfg = Azure|Any CPU
+		{E02AB217-D6A3-41DD-8326-268A77434491}.Azure|Any CPU.Build.0 = Azure|Any CPU
+		{04C283BF-F66C-4FA6-86B8-73073C3E2476}.Azure|Any CPU.ActiveCfg = Azure|Any CPU
+		{04C283BF-F66C-4FA6-86B8-73073C3E2476}.Azure|Any CPU.Build.0 = Azure|Any CPU
+		{2CD10310-AB3C-4F93-9B82-09125252A9AF}.Azure|Any CPU.ActiveCfg = Azure|Any CPU
+		{2CD10310-AB3C-4F93-9B82-09125252A9AF}.Azure|Any CPU.Build.0 = Azure|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
