@@ -8,11 +8,13 @@ $(function () {
 
         var settings = $.extend({
             number: 0,
-            color: 'btn-turn-blue'
+            color: 'btn-turn-blue',
+            deck: 1
         }, parameters);
 
         self.number = settings.number;
         self.color = settings.color;
+        self.deck = settings.deck;
         self.history = ko.observableArray([]);
         self.isCurrentTurn = ko.observable(false);
         self.isCurrentTurnInfo = ko.observable(false);
@@ -29,6 +31,7 @@ $(function () {
         GetDeck: function () {
             getDeck(vm.TestSpinner.getValue());
         },
+        CurrentDeck: ko.observable(1),
         Cards: ko.observableArray(),
         ChosenCard: ko.observable(),
         SpawnZombies: function () {
@@ -36,6 +39,14 @@ $(function () {
             vm.SelectCard(true);
             if (vm.SpawnsLeftInTurn() === 1) {
                 vm.SpawnsLeftInTurn(vm.ActiveSpawnSpinnerVM.getValue());
+                if (vm.Turn() === vm.MaxTurns()) {
+                    // Create new red turn
+                    vm.Turns.push(new Turn({
+                        number: Number(vm.Turn() + 1),
+                        color: 'btn-turn-red',
+                        deck: 4
+                    }));
+                }
                 vm.SetTurn(Number(vm.Turn() + 1));
                 vm.NewTurn(true);
             } else {
@@ -124,7 +135,7 @@ $(function () {
             vm.OrangeSpinnerVM.buttonsEnabled(false);
             vm.SetTurn(1);
             vm.SetTurnInfo(1);
-            vm.GetDeck();
+            getDeck(1);
             vm.GameSetup(false);
         },
 
@@ -145,24 +156,15 @@ $(function () {
     };
     vm.ChosenCard.subscribe(function (newCard) {
         var power = 0;
-        newCard.Spawns.forEach(function (spawn) {
-            power += (Number(spawn.Count) * Number(spawn.ZombieClass.BasePower) * Number(spawn.ZombieType.PowerMultiplier));
-        });
-        if (newCard.Sewer) {
-            power *= 2;
-        }
-        //newCard.Info += ' Power: ' + power.toFixed(1);
-        vm.CurrentTurn().history.unshift(newCard);
-    });
-    vm.TestSpinner.value.subscribe(function (val) {
-        if (val === 1) {
-            vm.JumbotronGlow('jumbotron-blue');
-        } else if (val === 2) {
-            vm.JumbotronGlow('jumbotron-yellow');
-        } else if (val === 3) {
-            vm.JumbotronGlow('jumbotron-orange');
-        } else if (val === 4) {
-            vm.JumbotronGlow('jumbotron-red');
+        if (newCard) {
+            newCard.Spawns.forEach(function (spawn) {
+                power += (Number(spawn.Count) * Number(spawn.ZombieClass.BasePower) * Number(spawn.ZombieType.PowerMultiplier));
+            });
+            if (newCard.Sewer) {
+                power *= 2;
+            }
+            //newCard.Info += ' Power: ' + power.toFixed(1);
+            vm.CurrentTurn().history.unshift(newCard);
         }
     });
     vm.TurnNumberSpinner.value.subscribe(function (val) {
@@ -184,6 +186,21 @@ $(function () {
         }
     });
     vm.ActiveSpawnSpinnerVM.buttonsEnabled = vm.NewTurn;
+    vm.CurrentDeck.subscribe(function (val) {
+        getDeck(val);
+        if (val === 1) {
+            vm.JumbotronGlow('jumbotron-blue');
+        } else if (val === 2) {
+            vm.JumbotronGlow('jumbotron-yellow');
+        } else if (val === 3) {
+            vm.JumbotronGlow('jumbotron-orange');
+        } else if (val === 4) {
+            vm.JumbotronGlow('jumbotron-red');
+        }
+    });
+    vm.CurrentTurn.subscribe(function (turn) {
+        vm.CurrentDeck(turn.deck);
+    });
 
     var initializeTurns = function () {
         vm.Turns.removeAll();
@@ -191,24 +208,28 @@ $(function () {
         for (var b = 0; b < vm.BlueSpinnerVM.getValue() ; b++) {
             vm.Turns.push(new Turn({
                 number: Number(turnNumber++),
-                color: 'btn-turn-blue'
+                color: 'btn-turn-blue',
+                deck: 1
             }));
         }
         for (var y = 0; y < vm.YellowSpinnerVM.getValue() ; y++) {
             vm.Turns.push(new Turn({
                 number: Number(turnNumber++),
-                color: 'btn-turn-yellow'
+                color: 'btn-turn-yellow',
+                deck: 2
             }));
         }
         for (var o = 0; o < vm.OrangeSpinnerVM.getValue() ; o++) {
             vm.Turns.push(new Turn({
                 number: Number(turnNumber++),
-                color: 'btn-turn-orange'
+                color: 'btn-turn-orange',
+                deck: 3
             }));
         }
         vm.Turns.push(new Turn({
             number: Number(turnNumber),
-            color: 'btn-turn-red'
+            color: 'btn-turn-red',
+            deck: 4
         }));
 
         vm.SetTurn(1);
@@ -225,8 +246,8 @@ $(function () {
             if (event.keyCode === 13) {
                 vm.StartGame();
             }
-            // T
             if (!vm.GameSetup()) {
+                // T
                 if (event.keyCode === 84) {
                     vm.SpawnZombies();
                 }
