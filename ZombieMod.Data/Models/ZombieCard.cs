@@ -7,11 +7,29 @@
 
     public class ZombieCard
     {
+        /// <summary>
+        /// Id
+        /// </summary>
         public int Id { get; set; }
+
+        /// <summary>
+        /// Place every spawn on every sewer
+        /// </summary>
         public bool Sewer { get; set; }
+
+        /// <summary>
+        /// What deck the card belongs to
+        /// </summary>
         public int ZombieDeckId { get; set; }
 
+        /// <summary>
+        /// The spawns belonging to this card
+        /// </summary>
         public virtual List<ZombieSpawn> Spawns { get; set; }
+
+        /// <summary>
+        /// The actual deck the card belongs to
+        /// </summary>
         public virtual ZombieDeck ZombieDeck { get; set; }
 
         [NotMapped]

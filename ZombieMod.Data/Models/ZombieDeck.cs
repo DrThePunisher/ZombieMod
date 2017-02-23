@@ -6,9 +6,19 @@
 
     public class ZombieDeck
     {
+        /// <summary>
+        /// Id
+        /// </summary>
         public int Id { get; set; }
+
+        /// <summary>
+        /// The name of the deck
+        /// </summary>
         public string Name { get; set; }
 
+        /// <summary>
+        /// The cards belonging to this deck
+        /// </summary>
         public virtual List<ZombieCard> Cards { get; set; }
 
         [NotMapped]

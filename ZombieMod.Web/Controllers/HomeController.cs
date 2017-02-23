@@ -1,7 +1,6 @@
 ﻿namespace ZombieMod.Web.Controllers
 {
     using System;
-    using System.Linq;
     using System.Web.Mvc;
     using Newtonsoft.Json;
     using ZombieMod.Data.Services;
@@ -10,11 +9,22 @@
     [RoutePrefix("ZombieMod")]
     public class HomeController : Controller
     {
+        /// <summary>
+        /// The spawner database service
+        /// </summary>
         private SpawnerService spawnerService { get; set; }
+
+        /// <summary>
+        /// The settings used to serialize json without infinitaly looping
+        /// </summary>
         private JsonSerializerSettings jsonSerializerSettings { get; set; }
         
+        /// <summary>
+        /// Basic constructor
+        /// </summary>
         public HomeController()
         {
+            // Initialize private variables
             spawnerService = new SpawnerService();
             jsonSerializerSettings = new JsonSerializerSettings
             {
@@ -22,36 +32,29 @@
             };
         }
 
-        // GET: Home
+        /// <summary>
+        /// Index / Homepage
+        /// </summary>
+        /// <returns></returns>
         public ActionResult Index()
         {
             return View();
         }
 
+        /// <summary>
+        /// Spawner Page
+        /// </summary>
+        /// <returns></returns>
         public ActionResult Spawner()
         {
             return View();
         }
 
-        [HttpGet]
-        [Route("GetInfo")]
-        public JsonResult GetInfo()
-        {
-            var classes = spawnerService.GetClasses();
-            var types = spawnerService.GetTypes();
-            var spawns = spawnerService.GetSpawns();
-            var cards = spawnerService.GetCards();
-            var decks = spawnerService.GetDecks();
-
-            var info = classes.Select(o => o.ToString()).ToList();
-            info.AddRange(types.Select(o => o.ToString()).ToList());
-            info.AddRange(spawns.Select(o => o.ToString()).ToList());
-            info.AddRange(cards.Select(o => o.ToString()).ToList());
-            info.AddRange(decks.Select(o => o.ToString()).ToList());
-
-            return Json(info, JsonRequestBehavior.AllowGet);
-        }
-
+        /// <summary>
+        /// Retrieve an entire deck with all cards and spawns
+        /// </summary>
+        /// <param name="deckId">The id of the deck</param>
+        /// <returns>An AjaxResponse object</returns>
         [HttpGet]
         [Route("GetDeck/{deckId:int}")]
         public JsonResult GetDeck(int deckId)
@@ -60,14 +63,17 @@
 
             try
             {
+                // Get the deck
                 response.Data = spawnerService.GetDeck(deckId);
             }
             catch (Exception e)
             {
+                // Keep the error information
                 response.Success = false;
                 response.Message = e.Message;
             }
 
+            // Serialize and return the data
             var jsonResult = new JsonResult
             {
                 Data = JsonConvert.SerializeObject(response, jsonSerializerSettings),

@@ -4,8 +4,19 @@
 
     public class ZombieType
     {
+        /// <summary>
+        /// Id
+        /// </summary>
         public int Id { get; set; }
+
+        /// <summary>
+        /// The name of the type
+        /// </summary>
         public string Name { get; set; }
+
+        /// <summary>
+        /// The power multiplier
+        /// </summary>
         public float PowerMultiplier { get; set; }
 
         [NotMapped]

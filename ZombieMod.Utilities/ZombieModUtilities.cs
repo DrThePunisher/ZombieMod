@@ -2,6 +2,9 @@
 {
     public class ZombieModUtilities
     {
+        /// <summary>
+        /// Zombie class describes what group a zombie is in
+        /// </summary>
         public enum ZombieClass
         {
             Normal = 1,
@@ -10,6 +13,9 @@
             Skinner = 4
         }
 
+        /// <summary>
+        /// Zombie type describes how a zombie functions
+        /// </summary>
         public enum ZombieType
         {
             Walker = 1,

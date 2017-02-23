@@ -5,8 +5,19 @@
 
     public class ZombieClass
     {
+        /// <summary>
+        /// Id
+        /// </summary>
         public int Id { get; set; }
+
+        /// <summary>
+        /// The name of the class
+        /// </summary>
         public String Name { get; set; }
+
+        /// <summary>
+        /// The base power
+        /// </summary>
         public float BasePower { get; set; }
 
         [NotMapped]
