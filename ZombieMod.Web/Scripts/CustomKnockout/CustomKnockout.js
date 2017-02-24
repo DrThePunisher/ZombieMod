@@ -1,8 +1,8 @@
-﻿var ZombieMod = ZombieMod || {};
+﻿var zombieMod = zombieMod || {};
 
-ZombieMod.CustomKnockout = {
-    Require: {
-        WideSpinner: function () {
+zombieMod.customKnockout = {
+    require: {
+        wideSpinner: function () {
             if (!ko.components.isRegistered('wide-spinner')) {
                 ko.components.register('wide-spinner', {
                     viewModel: {

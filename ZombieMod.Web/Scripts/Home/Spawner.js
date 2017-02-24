@@ -1,7 +1,10 @@
 ﻿/// <reference path="../CustomKnockout/WideSpinnerViewModel.js" />
+/// <reference path="../Managers/ZombieModManager.js" />
+
+
 var debugVm = null;
 $(function () {
-    ZombieMod.CustomKnockout.Require.WideSpinner();
+    zombieMod.customKnockout.require.wideSpinner();
 
     var Turn = function (parameters) {
         var self = this;
@@ -16,123 +19,123 @@ $(function () {
         self.color = settings.color;
         self.deck = settings.deck;
         self.history = ko.observableArray([]);
-        self.isCurrentTurn = ko.observable(false);
-        self.isCurrentTurnInfo = ko.observable(false);
+        self.iscurrentTurn = ko.observable(false);
+        self.iscurrentTurnInfo = ko.observable(false);
         self.icon = ko.pureComputed(function () {
-            if (self.isCurrentTurn()) {
+            if (self.iscurrentTurn()) {
                 return 'glyphicon-exclamation-sign';
-            } else if (self.isCurrentTurnInfo()) {
+            } else if (self.iscurrentTurnInfo()) {
                 return 'glyphicon-eye-open';
             } else return '';
         });
     };
 
     var vm = {
-        Loading: ko.observable(false),
-        CurrentDeck: ko.observable('No Deck'),
-        CurrentDeckId: ko.observable(1),
-        Cards: ko.observableArray(),
-        ChosenCard: ko.observable(),
-        SpawnButtonsEnabled: ko.pureComputed(function () {
-            return !vm.GameSetup() && !vm.Loading();
+        loading: ko.observable(false),
+        currentDeck: ko.observable('No Deck'),
+        currentDeckId: ko.observable(1),
+        cards: ko.observableArray(),
+        chosenCard: ko.observable(),
+        spawnButtonsEnabled: ko.pureComputed(function () {
+            return !vm.gameSetup() && !vm.loading();
         }),
-        SpawnZombies: function () {
-            vm.NewTurn(false);
-            vm.SelectCard(true);
-            if (vm.SpawnsLeftInTurn() === 1) {
-                vm.SpawnsLeftInTurn(vm.Spinners.ActiveSpawnCount.getValue());
-                if (vm.Turn() === vm.MaxTurns()) {
+        spawnZombies: function () {
+            vm.newTurn(false);
+            vm.selectCard(true);
+            if (vm.spawnsLeftInTurn() === 1) {
+                vm.spawnsLeftInTurn(vm.spinners.activeSpawnCount.getValue());
+                if (vm.turn() === vm.maxTurns()) {
                     // Create new red turn
-                    vm.Turns.push(new Turn({
-                        number: Number(vm.Turn() + 1),
+                    vm.turns.push(new Turn({
+                        number: Number(vm.turn() + 1),
                         color: 'btn-turn-red',
                         deck: 4
                     }));
                 }
-                vm.SetTurn(Number(vm.Turn() + 1));
-                vm.NewTurn(true);
+                vm.setTurn(Number(vm.turn() + 1));
+                vm.newTurn(true);
             } else {
-                vm.SpawnsLeftInTurn(Number(vm.SpawnsLeftInTurn() - 1));
+                vm.spawnsLeftInTurn(Number(vm.spawnsLeftInTurn() - 1));
             }
         },
-        SelectCard: function (spawn) {
-            vm.SetTurnInfo(vm.Turn());
-            if (vm.Cards().length === 0) {
-                vm.ChosenCard(null);
-                vm.JumbotronMessage('Reshuffling...');
-                getDeck(vm.CurrentDeckId(), function () {
-                    vm.SelectCard(spawn);
+        selectCard: function (spawn) {
+            vm.setTurnInfo(vm.turn());
+            if (vm.cards().length === 0) {
+                vm.chosenCard(null);
+                vm.jumbotronMessage('Reshuffling...');
+                getDeck(vm.currentDeckId(), function () {
+                    vm.selectCard(spawn);
                 });
                 return;
             } else {
-                var randomCard = vm.Cards()[Math.floor(Math.random() * vm.Cards().length)];
-                vm.JumbotronMessage(randomCard.Info);
+                var randomCard = vm.cards()[Math.floor(Math.random() * vm.cards().length)];
+                vm.jumbotronMessage(randomCard.Info);
                 if (spawn) {
                     randomCard.Info += ' (Spawn)';
                 }
-                vm.ChosenCard(randomCard);
-                vm.Cards.remove(randomCard);
+                vm.chosenCard(randomCard);
+                vm.cards.remove(randomCard);
             }
         },
-        JumbotronMessage: ko.observable('Zombies!!!'),
-        JumbotronGlow: ko.observable('jumbotron-blue'),
-        Spinners: {
-            ActiveSpawnCount: new ZombieMod.WideSpinnerViewModel({
+        jumbotronMessage: ko.observable('Zombies!!!'),
+        jumbotronGlow: ko.observable('jumbotron-blue'),
+        spinners: {
+            activeSpawnCount: new zombieMod.wideSpinnerViewModel({
                 label: 'Active Spawns', value: 4, min: 1
             }),
-            BlueSpawnCount: new ZombieMod.WideSpinnerViewModel({
+            blueSpawnCount: new zombieMod.wideSpinnerViewModel({
                 label: '# of Blue Spawns', value: 5, min: 1
             }),
-            YellowSpawnCount: new ZombieMod.WideSpinnerViewModel({
+            yellowSpawnCount: new zombieMod.wideSpinnerViewModel({
                 label: '# of Yellow Spawns', value: 4, min: 1
             }),
-            OrangeSpawnCount: new ZombieMod.WideSpinnerViewModel({
+            orangeSpawnCount: new zombieMod.wideSpinnerViewModel({
                 label: '# of Orange Spawns', value: 4, min: 1
             })
         },
-        SpawnsLeftInTurn: ko.observable(4),
-        NewTurn: ko.observable(true),
-        Turn: ko.observable(1),
-        MaxTurns: ko.pureComputed(function () {
-            return vm.Turns().length;
+        spawnsLeftInTurn: ko.observable(4),
+        newTurn: ko.observable(true),
+        turn: ko.observable(1),
+        maxTurns: ko.pureComputed(function () {
+            return vm.turns().length;
         }),
-        Turns: ko.observableArray(),
-        TurnList: ko.observableArray(),
-        CurrentTurn: ko.observable(),
-        CurrentTurnInfo: ko.observable(),
-        SetTurn: function (num) {
-            if (vm.CurrentTurn()) {
-                vm.CurrentTurn().isCurrentTurn(false);
+        turns: ko.observableArray(),
+        turnList: ko.observableArray(),
+        currentTurn: ko.observable(),
+        currentTurnInfo: ko.observable(),
+        setTurn: function (num) {
+            if (vm.currentTurn()) {
+                vm.currentTurn().iscurrentTurn(false);
             }
-            var turnObject = ko.utils.arrayFirst(vm.Turns(), function (turn) {
+            var turnObject = ko.utils.arrayFirst(vm.turns(), function (turn) {
                 return turn.number === num;
             });
-            vm.CurrentTurn(turnObject);
-            vm.CurrentTurn().isCurrentTurn(true);
-            vm.Turn(num);
+            vm.currentTurn(turnObject);
+            vm.currentTurn().iscurrentTurn(true);
+            vm.turn(num);
         },
-        SetTurnInfo: function (num) {
-            if (vm.CurrentTurnInfo()) {
-                vm.CurrentTurnInfo().isCurrentTurnInfo(false);
+        setTurnInfo: function (num) {
+            if (vm.currentTurnInfo()) {
+                vm.currentTurnInfo().iscurrentTurnInfo(false);
             }
-            var turnObject = ko.utils.arrayFirst(vm.Turns(), function (turn) {
+            var turnObject = ko.utils.arrayFirst(vm.turns(), function (turn) {
                 return turn.number === num;
             });
-            vm.CurrentTurnInfo(turnObject);
-            vm.CurrentTurnInfo().isCurrentTurnInfo(true);
+            vm.currentTurnInfo(turnObject);
+            vm.currentTurnInfo().iscurrentTurnInfo(true);
         },
-        GameSetup: ko.observable(true),
-        StartGame: function () {
-            vm.Spinners.BlueSpawnCount.buttonsEnabled(false);
-            vm.Spinners.YellowSpawnCount.buttonsEnabled(false);
-            vm.Spinners.OrangeSpawnCount.buttonsEnabled(false);
-            vm.SetTurn(1);
-            vm.SetTurnInfo(1);
+        gameSetup: ko.observable(true),
+        startGame: function () {
+            vm.spinners.blueSpawnCount.buttonsEnabled(false);
+            vm.spinners.yellowSpawnCount.buttonsEnabled(false);
+            vm.spinners.orangeSpawnCount.buttonsEnabled(false);
+            vm.setTurn(1);
+            vm.setTurnInfo(1);
             getDeck(1);
-            vm.GameSetup(false);
+            vm.gameSetup(false);
         }
     };
-    vm.ChosenCard.subscribe(function (newCard) {
+    vm.chosenCard.subscribe(function (newCard) {
         var power = 0;
         if (newCard) {
             newCard.Spawns.forEach(function (spawn) {
@@ -142,72 +145,72 @@ $(function () {
                 power *= 2;
             }
             //newCard.Info += ' Power: ' + power.toFixed(1);
-            vm.CurrentTurn().history.unshift(newCard);
+            vm.currentTurn().history.unshift(newCard);
         }
     });
-    vm.Spinners.BlueSpawnCount.value.subscribe(function () {
+    vm.spinners.blueSpawnCount.value.subscribe(function () {
         initializeTurns();
     });
-    vm.Spinners.YellowSpawnCount.value.subscribe(function () {
+    vm.spinners.yellowSpawnCount.value.subscribe(function () {
         initializeTurns();
     });
-    vm.Spinners.OrangeSpawnCount.value.subscribe(function () {
+    vm.spinners.orangeSpawnCount.value.subscribe(function () {
         initializeTurns();
     });
-    vm.Spinners.ActiveSpawnCount.value.subscribe(function (val) {
-        if (vm.NewTurn()) {
-            vm.SpawnsLeftInTurn(val);
+    vm.spinners.activeSpawnCount.value.subscribe(function (val) {
+        if (vm.newTurn()) {
+            vm.spawnsLeftInTurn(val);
         }
     });
-    vm.Spinners.ActiveSpawnCount.buttonsEnabled = vm.NewTurn;
-    vm.CurrentDeckId.subscribe(function (val) {
+    vm.spinners.activeSpawnCount.buttonsEnabled = vm.newTurn;
+    vm.currentDeckId.subscribe(function (val) {
         getDeck(val);
         if (val === 1) {
-            vm.JumbotronGlow('jumbotron-blue');
+            vm.jumbotronGlow('jumbotron-blue');
         } else if (val === 2) {
-            vm.JumbotronGlow('jumbotron-yellow');
+            vm.jumbotronGlow('jumbotron-yellow');
         } else if (val === 3) {
-            vm.JumbotronGlow('jumbotron-orange');
+            vm.jumbotronGlow('jumbotron-orange');
         } else if (val === 4) {
-            vm.JumbotronGlow('jumbotron-red');
+            vm.jumbotronGlow('jumbotron-red');
         }
     });
-    vm.CurrentTurn.subscribe(function (turn) {
-        vm.CurrentDeckId(turn.deck);
+    vm.currentTurn.subscribe(function (turn) {
+        vm.currentDeckId(turn.deck);
     });
 
     var initializeTurns = function () {
-        vm.Turns.removeAll();
+        vm.turns.removeAll();
         var turnNumber = 1;
-        for (var b = 0; b < vm.Spinners.BlueSpawnCount.getValue() ; b++) {
-            vm.Turns.push(new Turn({
+        for (var b = 0; b < vm.spinners.blueSpawnCount.getValue() ; b++) {
+            vm.turns.push(new Turn({
                 number: Number(turnNumber++),
                 color: 'btn-turn-blue',
                 deck: 1
             }));
         }
-        for (var y = 0; y < vm.Spinners.YellowSpawnCount.getValue() ; y++) {
-            vm.Turns.push(new Turn({
+        for (var y = 0; y < vm.spinners.yellowSpawnCount.getValue() ; y++) {
+            vm.turns.push(new Turn({
                 number: Number(turnNumber++),
                 color: 'btn-turn-yellow',
                 deck: 2
             }));
         }
-        for (var o = 0; o < vm.Spinners.OrangeSpawnCount.getValue() ; o++) {
-            vm.Turns.push(new Turn({
+        for (var o = 0; o < vm.spinners.orangeSpawnCount.getValue() ; o++) {
+            vm.turns.push(new Turn({
                 number: Number(turnNumber++),
                 color: 'btn-turn-orange',
                 deck: 3
             }));
         }
-        vm.Turns.push(new Turn({
+        vm.turns.push(new Turn({
             number: Number(turnNumber),
             color: 'btn-turn-red',
             deck: 4
         }));
 
-        vm.SetTurn(1);
-        vm.SetTurnInfo(1);
+        vm.setTurn(1);
+        vm.setTurnInfo(1);
     }
 
     // Init
@@ -218,26 +221,26 @@ $(function () {
             var event = window.event ? window.event : e;
             // Enter
             if (event.keyCode === 13) {
-                vm.StartGame();
+                vm.startGame();
             }
-            if (!vm.GameSetup() && !vm.Loading()) {
-                // Z
-                if (event.keyCode === 90) {
-                    vm.SpawnZombies();
+            if (!vm.gameSetup() && !vm.loading()) {
+                // Z or T
+                if (event.keyCode === 90 || event.keyCode === 84) {
+                    vm.spawnZombies();
                 }
                 // B
                 if (event.keyCode === 66) {
-                    vm.SelectCard();
+                    vm.selectCard();
                 }
             }
-            if (vm.Spinners.ActiveSpawnCount.buttonsEnabled()) {
+            if (vm.spinners.activeSpawnCount.buttonsEnabled()) {
                 // Left Arrow
                 if (event.keyCode === 37) {
-                    vm.Spinners.ActiveSpawnCount.left();
+                    vm.spinners.activeSpawnCount.left();
                 }
                 // Right Arrow
                 if (event.keyCode === 39) {
-                    vm.Spinners.ActiveSpawnCount.right();
+                    vm.spinners.activeSpawnCount.right();
                 }
             }
         });
@@ -245,25 +248,21 @@ $(function () {
 
     // ajax functions
     var getDeck = function (deckId, callback) {
-        vm.Loading(true);
-        $.ajax({
-            url: '/ZombieMod/GetDeck/' + deckId,
-            contentType: 'application/json; charset=utf-8',
-            dataType: 'json',
-            success: function (response) {
+        vm.loading(true);
+        zombieMod.zombieModManager.getDeck(deckId)
+            .done(function (response) {
                 response = JSON.parse(response);
-                vm.CurrentDeck(response.Data.Name);
                 if (response.Success) {
-                    vm.Cards(response.Data.Cards);
+                    vm.currentDeck(response.Data.Name);
+                    vm.cards(response.Data.Cards);
                     if ($.isFunction(callback)) {
                         callback();
                     }
                 } else {
                     console.log(response.Message);
                 }
-                vm.Loading(false);
-            }
-        });
+                vm.loading(false);
+            });
     }
 
     // Set up

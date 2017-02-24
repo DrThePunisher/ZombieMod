@@ -7,25 +7,25 @@
     <div class="row">
         @* Actions *@
         <div class="col-md-12" style="display: inline-block">
-            <button class="btn btn-primary" data-bind="click: SpawnZombies, enable: SpawnButtonsEnabled">
-                Spawn Zombies (<span data-bind="text: SpawnsLeftInTurn"></span>)
+            <button class="btn btn-primary" data-bind="click: spawnZombies, enable: spawnButtonsEnabled">
+                Spawn Zombies (<span data-bind="text: spawnsLeftInTurn"></span>)
             </button>
-            <button class="btn btn-default" data-bind="click: SelectCard, enable: SpawnButtonsEnabled">Building Spawn</button>
+            <button class="btn btn-default" data-bind="click: selectCard, enable: spawnButtonsEnabled">Building Spawn</button>
 
         </div>
     </div>
 
-    <div class="jumbotron" data-bind="css: JumbotronGlow">
+    <div class="jumbotron" data-bind="css: jumbotronGlow">
         <h1>
-            <span data-bind="text: JumbotronMessage"></span>
+            <span data-bind="text: jumbotronMessage"></span>
         </h1>
     </div>
 
     <div class="row">
         <div class="col-md-12" style="display: inline-block">
-            <div class="btn-group btn-group-justified" role="group" data-bind="foreach: Turns">
+            <div class="btn-group btn-group-justified" role="group" data-bind="foreach: turns">
                 <div class="btn-group" role="group">
-                    <button type="button" class="btn btn-turn btn-lg" data-bind="css: color, event: { click: function () { $root.SetTurnInfo(number) }}"><span class="glyphicon" data-bind="css: icon"></span></button>
+                    <button type="button" class="btn btn-turn btn-lg" data-bind="css: color, event: { click: function () { $root.setTurnInfo(number) }}"><span class="glyphicon" data-bind="css: icon"></span></button>
                 </div>
             </div>
         </div>
@@ -33,48 +33,48 @@
 
     <div class="row">
         @* Setup *@
-        <div class="col-md-4" data-bind="visible: GameSetup">
+        <div class="col-md-4" data-bind="visible: gameSetup">
             <div class="panel panel-default">
                 <div class="panel-heading"><h3>Game Setup</h3></div>
                 <div class="panel-body">
                     <div>
-                        <button class="btn btn-primary btn-panel" data-bind="click: StartGame, enable: GameSetup">
+                        <button class="btn btn-primary btn-panel" data-bind="click: startGame, enable: gameSetup">
                             <span>Start Game</span>
-                            <span data-bind="visible: GameSetup"> (Enter)</span>
+                            <span data-bind="visible: gameSetup"> (Enter)</span>
                         </button>
                     </div>
-                    <wide-spinner params="value: Spinners.BlueSpawnCount"></wide-spinner>
-                    <wide-spinner params="value: Spinners.YellowSpawnCount"></wide-spinner>
-                    <wide-spinner params="value: Spinners.OrangeSpawnCount"></wide-spinner>
+                    <wide-spinner params="value: spinners.blueSpawnCount"></wide-spinner>
+                    <wide-spinner params="value: spinners.yellowSpawnCount"></wide-spinner>
+                    <wide-spinner params="value: spinners.orangeSpawnCount"></wide-spinner>
                 </div>
             </div>
         </div>
         @* Game Info *@
-        <div class="col-md-4" data-bind="visible: !GameSetup()">
+        <div class="col-md-4" data-bind="visible: !gameSetup()">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h3>Game Info <span class="glyphicon glyphicon-refresh glyphicon-spin loading-icon" data-bind="visible: Loading"></span></h3>
+                    <h3>Game Info <span class="glyphicon glyphicon-refresh glyphicon-spin loading-icon" data-bind="visible: loading"></span></h3>
                 </div>
                 <div class="panel-body">
-                    <wide-spinner params="value: Spinners.ActiveSpawnCount"></wide-spinner>
+                    <wide-spinner params="value: spinners.activeSpawnCount"></wide-spinner>
                     <div>
-                        <label>Current Turn:</label>
-                        <span data-bind="text: Turn"></span>
+                        <label>Current turn:</label>
+                        <span data-bind="text: turn"></span>
                     </div>
                     <div>
                         <label>Current Deck:</label>
-                        <span data-bind="text: CurrentDeck"></span>
+                        <span data-bind="text: currentDeck"></span>
                     </div>
                     <div>
                         <label>Card Count:</label>
-                        <span data-bind="text: Cards().length"></span>
+                        <span data-bind="text: cards().length"></span>
                     </div>
                     <div>
                         <label>Enter :</label>
                         <span>Starts the game.</span>
                     </div>
                     <div>
-                        <label>Z :</label>
+                        <label>Z or T :</label>
                         <span>Spawns Zombies for an active spawn point.</span>
                     </div>
                     <div>
@@ -93,8 +93,8 @@
             </div>
         </div>
         @* Turn Info *@
-        <div class="col-md-4" data-bind="visible: !GameSetup()">
-            <div class="panel panel-default" data-bind="with: CurrentTurnInfo">
+        <div class="col-md-4" data-bind="visible: !gameSetup()">
+            <div class="panel panel-default" data-bind="with: currentTurnInfo">
                 <div class="panel-heading">
                     <h3>Turn <span data-bind="text: number"></span> Info</h3>
                 </div>
@@ -109,4 +109,5 @@
 </div>
 
 @Html.Partial("_CommonScripts")
+<script src="~/Scripts/Managers/ZombieModManager.js"></script>
 <script src="~/Scripts/Home/Spawner.js"></script>

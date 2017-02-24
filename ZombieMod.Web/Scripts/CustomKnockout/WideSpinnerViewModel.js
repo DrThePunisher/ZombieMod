@@ -1,6 +1,6 @@
-﻿var ZombieMod = ZombieMod || {};
+﻿var zombieMod = zombieMod || {};
 
-ZombieMod.WideSpinnerViewModel = function (parameters) {
+zombieMod.wideSpinnerViewModel = function (parameters) {
     var self = this;
 
     var settings = $.extend({
