@@ -50,6 +50,11 @@
             return View();
         }
 
+        public ActionResult DeckManager()
+        {
+            return View();
+        }
+
         /// <summary>
         /// Retrieve an entire deck with all cards and spawns
         /// </summary>
@@ -83,5 +88,36 @@
             return jsonResult;
         }
 
+        /// <summary>
+        /// Retrieves every deck in the database
+        /// </summary>
+        /// <returns>An AjaxResponse object</returns>
+        [HttpGet]
+        [Route("GetAllDecks")]
+        public JsonResult GetAllDecks()
+        {
+            var response = new AjaxResponse();
+
+            try
+            {
+                // Get the decks
+                response.Data = spawnerService.GetAllDecks();
+            }
+            catch (Exception e)
+            {
+                // Keep the error information
+                response.Success = false;
+                response.Message = e.Message;
+            }
+
+            // Serialize and return the data
+            var jsonResult = new JsonResult
+            {
+                Data = JsonConvert.SerializeObject(response, jsonSerializerSettings),
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+
+            return jsonResult;
+        }
     }
 }

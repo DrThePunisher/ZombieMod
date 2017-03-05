@@ -1,11 +1,26 @@
 ﻿namespace ZombieMod.Data.Services
 {
+    using System.Collections.Generic;
     using System.Data.Entity;
     using System.Linq;
     using ZombieMod.Data.Models;
 
     public class SpawnerService
     {
+        /// <summary>
+        /// Retrieves every deck in the database
+        /// </summary>
+        /// <returns>A collection of ZombieDeck objects</returns>
+        public IEnumerable<ZombieDeck> GetAllDecks()
+        {
+            using (var db = new ZombieModContext())
+            {
+                db.Configuration.ProxyCreationEnabled = false;
+
+                return db.Decks.ToList();
+            }
+        }
+        
         /// <summary>
         /// Retrieves a specific deck with all cards, spawns, zombie classes and zombie types
         /// </summary>

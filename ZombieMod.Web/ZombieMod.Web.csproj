@@ -97,6 +97,8 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Custom\bootstrap-tweaks.css" />
+    <Content Include="Content\Custom\zombie-mod.css" />
+    <Content Include="Content\Home\deck-manager.css" />
     <Content Include="Content\Home\spawner.css" />
     <Content Include="Content\Site.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -115,6 +117,7 @@
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
     <Content Include="Scripts\CustomKnockout\CustomKnockout.js" />
     <Content Include="Scripts\CustomKnockout\WideSpinnerViewModel.js" />
+    <Content Include="Scripts\Home\DeckManager.js" />
     <Content Include="Scripts\Home\Index.js" />
     <Content Include="Scripts\Home\Spawner.js" />
     <Content Include="Scripts\jquery-3.1.1.js" />
@@ -125,12 +128,14 @@
     <Content Include="Scripts\knockout-3.4.1.js" />
     <Content Include="Scripts\Managers\ZombieModManager.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\Shared\Layout.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Home\DeckManager.cshtml" />
     <None Include="Web.Base.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

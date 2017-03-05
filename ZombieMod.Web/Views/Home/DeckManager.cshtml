@@ -1,0 +1,38 @@
+﻿@{
+    ViewBag.Title = "Deck Manager";
+}
+<link href="~/Content/Home/deck-manager.css" rel="stylesheet" />
+<div class="container-fluid">
+    <h2>Deck Manager</h2>
+
+    <div class="row">
+        @* Deck Stats *@
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3>Deck Info &amp; Stats <span class="glyphicon glyphicon-refresh glyphicon-spin loading-icon" data-bind="visible: loading"></span></h3>
+                </div>
+                <div class="panel-body">
+                    <select class="form-control" data-bind="options: allDeckOptions, value: selectedDeckOption, optionsText: 'Name', optionsValue: 'Id'"></select>
+                </div>
+            </div>
+        </div>
+        @* Card List *@
+        <div class="col-md-8">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3><span data-bind="text: currentDeckName"></span> Cards</h3>
+                </div>
+                <div class="panel-body">
+                    <ul class="column-2" data-bind="foreach: currentDeckCards">
+                        <li data-bind="text: Info"></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@Html.Partial("_CommonScripts")
+<script src="~/Scripts/Managers/ZombieModManager.js"></script>
+<script src="~/Scripts/Home/DeckManager.js"></script>

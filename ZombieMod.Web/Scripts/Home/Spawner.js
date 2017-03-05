@@ -1,7 +1,6 @@
 ﻿/// <reference path="../CustomKnockout/WideSpinnerViewModel.js" />
 /// <reference path="../Managers/ZombieModManager.js" />
 
-
 var debugVm = null;
 $(function () {
     zombieMod.customKnockout.require.wideSpinner();

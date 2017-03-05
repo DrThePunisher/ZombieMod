@@ -32,7 +32,14 @@
 
         public override string ToString()
         {
-            return string.Format("Deck {0} | Name: {1}, Card Count: {2}", Id, Name, Cards.Count());
+            var info = string.Empty;
+            if (Cards != null)
+            {
+                info = string.Format("Deck: {0} | Name: {1}, Card Count: {2}", Id, Name, Cards.Count());
+            } else {
+                info = string.Format("Deck: {0} | Name: {1}", Id, Name);
+            }
+            return info;
         }
     }
 }
