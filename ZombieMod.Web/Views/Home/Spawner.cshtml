@@ -4,6 +4,12 @@
 <link href="~/Content/Home/spawner.css" rel="stylesheet" />
 <div class="container-fluid">
     <br />
+    <div class="jumbotron" data-bind="css: jumbotronGlow">
+        <h1>
+            <span data-bind="text: jumbotronMessage"></span>
+        </h1>
+    </div>
+
     <div class="row">
         @* Actions *@
         <div class="col-md-12" style="display: inline-block">
@@ -11,14 +17,7 @@
                 Spawn Zombies (<span data-bind="text: spawnsLeftInTurn"></span>)
             </button>
             <button class="btn btn-default" data-bind="click: selectCard, enable: spawnButtonsEnabled">Building Spawn</button>
-
         </div>
-    </div>
-
-    <div class="jumbotron" data-bind="css: jumbotronGlow">
-        <h1>
-            <span data-bind="text: jumbotronMessage"></span>
-        </h1>
     </div>
 
     <div class="row">
